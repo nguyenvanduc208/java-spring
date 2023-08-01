@@ -1,0 +1,17 @@
+<route id="direct_returnArticles"
+  routeConfigurationId="generic-error,return-cleanup"
+  xmlns="http://camel.apache.org/schema/spring">
+
+  <from uri="direct:returnArticles" />
+
+  <to uri="direct:prepareReturnArticles" />
+
+  <setBody>
+    <groovy><![CDATA[
+    new com.github.jacekszymanski.realcamel.model.GetArticlesFeed200Response()
+      .articlesCount(exchange.properties.__articlesCount as int)
+      .articles(request.body)
+  ]]></groovy>
+  </setBody>
+
+</route>

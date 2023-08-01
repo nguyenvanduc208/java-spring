@@ -1,0 +1,24 @@
+<route id="direct_findArticle"
+  routeConfigurationId="generic-error,no-such-object-error"
+  xmlns="http://camel.apache.org/schema/spring">
+
+  <from uri="direct:findArticle" />
+
+  <setProperty name="__article_id">
+    <groovy resultType="java.lang.Long">resource:classpath:scripts/resolve-slug.groovy</groovy>
+  </setProperty>
+
+  <setHeader name="CamelJpaParameters">
+    <groovy>
+      [ id: exchange.properties.__article_id ]
+    </groovy>
+  </setHeader>
+
+  <toD uri="xjpa:com.github.jacekszymanski.realcamel.entity.Article?query=select a from Article a where a.id = :id
+      &amp;outputType=SelectOne${exchangeProperty.__xjpa_opts}" />
+
+  <removeProperty name="__article_id" />
+  <removeProperty name="__xjpa_opts" />
+  <removeHeader name="CamelJpaParameters" />
+
+</route>

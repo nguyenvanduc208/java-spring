@@ -1,0 +1,15 @@
+<route
+    id="direct_getTags"
+    routeConfigurationId="generic-error,return-cleanup"
+    xmlns="http://camel.apache.org/schema/spring">
+
+  <from uri="direct:getTags" />
+
+  <to uri="sql:classpath:sql/tags.sql?outputType=SelectList" />
+
+  <marshal><json /></marshal>
+
+  <to uri="jslt:classpath:jslt/tags-resp.jslt" />
+
+  <unmarshal><json unmarshalType="com.github.jacekszymanski.realcamel.model.GetTags200Response" /></unmarshal>
+</route>

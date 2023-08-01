@@ -1,0 +1,18 @@
+<routes xmlns="http://camel.apache.org/schema/spring">
+  <route id="direct_unfollowUserByUsername" routeConfigurationId="verify-login,generic-error">
+    <from uri="direct:unfollowUserByUsername" />
+
+    <to uri="direct:getUserByName" />
+
+    <to uri="direct:followOneselfCheck" />
+
+    <to uri="sql:classpath:sql/unfollow.sql" />
+
+    <setHeader name="__me_follower">
+      <constant resultType="java.lang.Integer">0</constant>
+    </setHeader>
+
+    <to uri="direct:returnUserProfile" />
+
+  </route>
+</routes>

@@ -1,0 +1,23 @@
+<route id="direct_createArticleComment"
+       xmlns="http://camel.apache.org/schema/spring"
+       routeConfigurationId="verify-login,generic-error">
+  <from uri="direct:createArticleComment" />
+
+  <setProperty name="__xjpa_opts"><constant>&amp;outputTarget=.__article</constant></setProperty>
+  <to uri="direct:findArticle" />
+
+  <setBody><groovy>
+    com.github.jacekszymanski.realcamel.entity.Comment.builder()
+      .body(request.body.comment.body)
+      .author(exchange.properties.loggedInUser)
+      .article(exchange.properties.__article)
+      .build()
+  </groovy></setBody>
+
+  <to uri="jpa:com.github.jacekszymanski.realcamel.entity.Comment?usePersist=true" />
+
+  <log message="created ${body}" loggingLevel="DEBUG" />
+
+  <to uri="direct:returnComment" />
+
+</route>

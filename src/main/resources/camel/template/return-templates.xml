@@ -1,0 +1,46 @@
+<routeTemplates xmlns="http://camel.apache.org/schema/spring">
+  <routeTemplate id="prepareReturnMultiple">
+    <templateParameter name="objectType" />
+    <route routeConfigurationId="generic-error">
+      <from uri="direct:prepareReturn{{objectType}}s" />
+
+      <split aggregationStrategy="#class:com.github.jacekszymanski.realcamel.ListAggregationStrategy"
+             stopOnException="true">
+        <simple>${body}</simple>
+
+        <to uri="direct:return{{objectType}}" />
+
+        <!-- NOTE need to use .get{{objectType}}() as .{{objectType}} would conflict with
+             a fluent setter which confuses camel -->
+        <setBody>
+          <simple>${body.get{{objectType}}()}</simple>
+        </setBody>
+      </split>
+    </route>
+  </routeTemplate>
+
+  <routeTemplate id="returnSingle">
+    <templateParameter name="objectType" />
+    <templateParameter name="returnClass" />
+    <route routeConfigurationId="generic-error,no-such-object-error,return-cleanup"
+           xmlns="http://camel.apache.org/schema/spring">
+
+      <from uri="direct:return{{objectType}}" />
+
+      <to uri="direct:prepareReturn{{objectType}}?failIfNoConsumers=false&amp;block=false" />
+
+      <to uri="direct:checkFollow" />
+
+      <marshal><json /></marshal>
+      <toD uri="language:groovy:&quot;jslt:classpath:jslt/${'{{objectType}}'.toLowerCase()}-resp.jslt&quot;" />
+      <removeHeaders pattern="^__.*" />
+
+      <unmarshal><json
+          library="Jackson"
+          unmarshalType="com.github.jacekszymanski.realcamel.model.{{returnClass}}"
+      /></unmarshal>
+
+    </route>
+
+  </routeTemplate>
+</routeTemplates>

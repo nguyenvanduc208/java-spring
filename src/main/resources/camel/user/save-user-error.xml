@@ -1,0 +1,17 @@
+<routeConfigurations>
+  <routeConfiguration id="save-user-constraint-error">
+    <onException>
+      <exception>org.hibernate.exception.ConstraintViolationException</exception>
+      <handled><constant>true</constant></handled>
+
+      <setHeader name="__ownErrorMessage">
+        <constant>user or email already taken</constant>
+      </setHeader>
+      <setHeader name="CamelHttpResponseCode">
+        <constant resultType="java.lang.Integer">422</constant>
+      </setHeader>
+
+      <to uri="direct:returnError" />
+    </onException>
+  </routeConfiguration>
+</routeConfigurations>

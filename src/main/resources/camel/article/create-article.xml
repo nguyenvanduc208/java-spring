@@ -1,0 +1,26 @@
+<route id="direct_createArticle" routeConfigurationId="verify-login,generic-error,return-201" xmlns="http://camel.apache.org/schema/spring">
+  <from uri="direct:createArticle" />
+
+  <setProperty name="__tags">
+    <simple>${body.getArticle().getTagList()}</simple>
+  </setProperty>
+
+  <marshal><json /></marshal>
+  <to uri="jslt:classpath:jslt/create-article-req2db.jslt" />
+
+  <unmarshal><json library="Jackson" unmarshalType="com.github.jacekszymanski.realcamel.entity.Article" /></unmarshal>
+
+  <script>
+    <groovy>
+      request.body.'author' = exchange.properties.'loggedInUser'
+      exchange.properties.'__tags'.each { request.body.addTag(it) }
+    </groovy>
+  </script>
+
+  <to uri="jpa:com.github.jacekszymanski.realcamel.entity.Article?usePersist=true" />
+
+  <log message="created ${body}" loggingLevel="DEBUG" />
+
+  <to uri="direct:returnArticle" />
+
+</route>

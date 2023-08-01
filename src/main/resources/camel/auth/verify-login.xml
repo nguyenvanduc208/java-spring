@@ -1,0 +1,18 @@
+<routes xmlns="http://camel.apache.org/schema/spring">
+  <route id="direct_verifyLogin" routeConfigurationId="generic-error,verify-login-error">
+    <from uri="direct:verifyLogin" />
+
+    <filter>
+      <simple>${header.Authorization} == null</simple>
+
+      <throwException message="No Authorization header"
+                      exceptionType="com.github.jacekszymanski.realcamel.UnauthorizedException" />
+    </filter>
+
+    <to uri="jwt:HS256:Decode?privateKeyLocation=classpath:jwt.key.txt&amp;source=Authorization&amp;target=.jwt_token&amp;outputType=Map" />
+
+    <to uri="xjpa:com.github.jacekszymanski.realcamel.entity.User?namedQuery=selectByUsername&amp;parameters.username=${exchangeProperty.jwt_token['sub']}&amp;outputType=SelectOne&amp;outputTarget=.loggedInUser" />
+
+    <removeProperty name="jwt_token" />
+  </route>
+</routes>

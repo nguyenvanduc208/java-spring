@@ -1,0 +1,9 @@
+<routes xmlns="http://camel.apache.org/schema/spring">
+  <route id="direct_getProfileByUsername" routeConfigurationId="maybe-verify-login,generic-error">
+    <from uri="direct:getProfileByUsername" />
+
+    <to uri="direct:getUserByName" />
+
+    <to uri="direct:returnUserProfile" />
+  </route>
+</routes>

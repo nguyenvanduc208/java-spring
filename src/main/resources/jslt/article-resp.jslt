@@ -1,0 +1,33 @@
+def sort(array)
+  if (size($array) <= 1)
+    $array
+  else
+    [
+      [for ($array[1:]) . if (. < $array[0])] | sort(.),
+      $array[0],
+      [for ($array[1:]) . if (. >= $array[0])] | sort(.)
+    ] | flatten(.)
+
+def createslug(title, id)
+  let preptitle = $title
+    | trim(.)
+    | replace(., "\\s+", "-")
+    | replace(., "[^a-zA-Z0-9-]", "")
+  if (size($preptitle) == 0)
+    string($id)
+  else
+    [$preptitle, string(.id)] | join(., "-")
+
+{
+  "article" : . | {
+    "tagList" : sort([for (.tagList) .tag]),
+    "slug": createslug(.title, .id),
+    "favoritesCount": $headers.__favorites.FAVORITES,
+    "favorited": ($headers.__favorites.MYFAVORITE == 1),
+    "author": .author | {
+      "following": ($headers.__me_follower == 1),
+      * - password, email : .
+    },
+    * - id : .
+  }
+}

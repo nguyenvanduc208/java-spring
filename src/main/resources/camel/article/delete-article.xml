@@ -1,0 +1,13 @@
+<route id="direct_deleteArticle" routeConfigurationId="verify-login,generic-error,no-such-object-error,return-empty-200,return-cleanup" xmlns="http://camel.apache.org/schema/spring">
+
+  <from uri="direct:deleteArticle" />
+
+  <to uri="direct:findArticle" />
+
+  <to uri="direct:verifyArticleAuthor" />
+
+  <log message="Deleting article: ${body.id} ${body.title}" />
+
+  <to uri="jpa:com.github.jacekszymanski.realcamel.entity.Article?remove=true" />
+
+</route>
