@@ -14,6 +14,7 @@ import org.apache.camel.spi.UriParam;
  * - outputType, if SelectOne, it ensures that exactly one result is returned (or an exception is thrown).
  * - firstResult, the index of the first result to return.
  */
+
 @UriEndpoint(scheme = "xjpa", syntax = "xjpa:entityType", title = "XJPA", headersClass = JpaConstants.class)
 public class XJpaEndpoint extends JpaEndpoint {
 

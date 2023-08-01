@@ -7,6 +7,7 @@ import org.apache.camel.util.ObjectHelper;
 import org.apache.camel.util.PropertiesHelper;
 import java.util.Map;
 
+
 @Component("xjpa")
 public class XJpaComponent extends JpaComponent {
 

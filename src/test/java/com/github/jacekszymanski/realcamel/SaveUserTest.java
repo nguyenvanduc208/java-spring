@@ -20,6 +20,8 @@ public class SaveUserTest extends TestsBase {
   public static final String ENTRY_ENDPOINT = "direct:saveUser";
   public static final String JPA_ENDPOINT = "jpa:com.github.jacekszymanski.realcamel.entity.User";
 
+
+
   @Test
   public void testNewUsernameTaken() throws Exception {
     final CreateUserRequest req = UserUtil.defaultUserRequest();

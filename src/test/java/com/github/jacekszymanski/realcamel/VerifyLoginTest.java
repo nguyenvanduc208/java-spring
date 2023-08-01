@@ -23,6 +23,7 @@ public class VerifyLoginTest extends TestsBase {
   private static final String TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhYmNkZSJ9.iFBORfKYZ5YTir5cMVYMjEZ8sveV-Vg-lW6SShWkCLI";
 
   private static boolean adviced = false;
+  
 
   private MockEndpoint mockEndpoint;
 

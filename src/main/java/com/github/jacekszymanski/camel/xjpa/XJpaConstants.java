@@ -8,3 +8,4 @@ public class XJpaConstants {
   public static final String XJPA_FIRST_RESULT = "CamelXJpaFirstResult";
 
 }
+

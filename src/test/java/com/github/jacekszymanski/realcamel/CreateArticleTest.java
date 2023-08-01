@@ -13,6 +13,7 @@ import com.github.jacekszymanski.realcamel.testutil.ArticleUtil;
 import com.github.jacekszymanski.realcamel.testutil.UriUtil;
 import com.github.jacekszymanski.realcamel.testutil.UserUtil;
 
+
 @CamelSpringBootTest
 @SpringBootTest(classes = CamelApplication.class)
 public class CreateArticleTest extends TestsBase {

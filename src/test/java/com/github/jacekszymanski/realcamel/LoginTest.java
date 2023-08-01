@@ -18,6 +18,7 @@ import java.util.List;
 @CamelSpringBootTest
 @SpringBootTest(classes = CamelApplication.class)
 public class LoginTest extends TestsBase {
+  
   private static final String JPA_ENDPOINT_PATTERN = "jpa:com.github.jacekszymanski.realcamel.entity.User*";
   private static final String ENTRY_ENDPOINT = "direct:login";
   private static final String LOGIN_USER_ENDPOINT = "direct:returnUser";

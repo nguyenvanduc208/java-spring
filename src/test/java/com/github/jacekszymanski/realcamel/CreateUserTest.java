@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @CamelSpringBootTest
 @SpringBootTest(classes = CamelApplication.class)
 public class CreateUserTest extends TestsBase {
+  
 
   public static final String SAVE_ENDPOINT = "direct:saveUser";
   public static final String LOGIN_ENDPOINT = "direct:returnUser";
